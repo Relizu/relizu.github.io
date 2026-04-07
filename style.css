@@ -1,0 +1,11 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+#background{
+    background-color:rgb(26, 26, 26)
+}
+canvas {
+  display: block;
+  width: 100%;
+}
