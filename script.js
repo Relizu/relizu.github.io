@@ -8,6 +8,14 @@ ctx.imageSmoothingEnabled = false;
 
 let wordlist=["Scroll down ;>.","live laugh love","Hi!","I'm an engineer","isn't this cool?","may 10th is a special day", "Egypt","I LOVE CATS!","Canvas","Machine Learning","Patience!",""]
 
+let mouse={x:0,y:0}
+document.addEventListener('mousemove', (event) => {
+  mouse.x=event.pageX;
+  mouse.y=event.pageY;
+});
+
+let boxdir={x:0,y:0};
+let boxdirnorm=0;
 
 
 const drop = new Image();
@@ -22,9 +30,13 @@ road.src = "road.png";
 const box = new Image();
 box.src = "box.png";
 
+const finder = new Image();
+finder.src="finder.png";
+
 let droplist={x:[1],y:[1]};
 let cloudx =[0,200,400,600,800,1000,1200,1400];
 let texts={size:[20],direction:[0],x:[1],y:[1],contents:[""]};
+let boxanim={direction:true,Pos:1500};
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -33,7 +45,7 @@ function draw() {
     ctx.fillStyle = `#${hex}${hex}${hex}`;
     ctx.fillRect(0,-200,canvas.width, canvas.height+1000)
     ctx.fillStyle="#ffffff";
-    ctx.font = "80px sans-serif"; 
+    ctx.font = "80px Consolas"; 
     ctx.fillText("Welcome",(canvas.width-300)/2,300,1000);
     ctx.fillText("To",(canvas.width-50)/2,370,1000);
     ctx.fillText("My Mind.~",(canvas.width-250)/2,440,1000);
@@ -69,7 +81,7 @@ function draw() {
         }
     }
     for(let t=0; t<texts.x.length;t++){
-        ctx.font =texts.size[t].toString()+"px Arial";
+        ctx.font =texts.size[t].toString()+"px Consolas";
         ctx.fillText(texts.contents[t],texts.x[t],texts.y[t],1000);
         if(texts.direction[t]==1){
             texts.x[t] -=1;
@@ -92,9 +104,36 @@ function draw() {
         }
         
     }
+    if(boxanim.direction){
+        boxanim.Pos+=1;
+        if(boxanim.Pos>1525){
+            boxanim.direction=false;
+        }
+    }else{
+        boxanim.Pos-=1;
+        if(boxanim.Pos<1500){
+            boxanim.direction=true;
+        }
+    }
+    
+    ctx.drawImage(box,(canvas.width-250)/2,boxanim.Pos,250,200)
 
-    ctx.drawImage(box,(canvas.width-250)/2,1500,250,200)
+    if(mouse.y>1000){
+        canvas.classList.remove("umbrella");
+    }else{
+        canvas.classList.add("umbrella");
+    }
+    boxdir={x:((canvas.width-250)/2)-mouse.x,y:(boxanim.Pos-mouse.y)};
+    boxdirnorm=Math.sqrt(Math.pow(boxdir.x,2)+Math.pow(boxdir.y,2));
+    boxdir={x:boxdir.x/boxdirnorm,y:boxdir.y/boxdirnorm};
+    ctx.save()
+    ctx.translate(mouse.x+boxdir.x*40+25,mouse.y+boxdir.y*40+25);
+    ctx.rotate((Math.PI/2)+Math.atan2(boxdir.y,boxdir.x))
+    ctx.drawImage(finder, -finder.width / 2, -finder.height / 2)
+    
+    ctx.restore()
     requestAnimationFrame(draw);
+
 }
 
 draw();

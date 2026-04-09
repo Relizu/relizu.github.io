@@ -5,7 +5,15 @@
 #background{
     background-color:rgb(26, 26, 26)
 }
+body {
+  overflow-x: hidden;
+}
 canvas {
   display: block;
   width: 100%;
+  cursor: url("cursor.png"),auto;
+}
+
+.umbrella{
+    cursor: url("cursorumbrella.png"),auto;
 }
