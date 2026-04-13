@@ -2,7 +2,7 @@
 
 const canvas = /** @type {HTMLCanvasElement} */ (document.getElementById("background"));
 const ctx = /** @type {CanvasRenderingContext2D} */ (canvas.getContext("2d"));
-canvas.height = 2000
+canvas.height = 2500
 canvas.width = window.innerWidth
 ctx.imageSmoothingEnabled = false;
 
@@ -13,7 +13,13 @@ document.addEventListener('mousemove', (event) => {
   mouse.x=event.pageX;
   mouse.y=event.pageY;
 });
-
+let transition = false;
+let transa=0;
+canvas.addEventListener("click", (e) => {
+    if(Math.sqrt(Math.pow(e.pageX-(canvas.width/2),2)+Math.pow(e.pageY-boxanim.Pos-50,2))<100){
+        transition=true;
+    }
+});
 let boxdir={x:0,y:0};
 let boxdirnorm=0;
 
@@ -132,7 +138,19 @@ function draw() {
     ctx.drawImage(finder, -finder.width / 2, -finder.height / 2)
     
     ctx.restore()
-    requestAnimationFrame(draw);
+
+    if(transition){
+        ctx.fillStyle="rgba(255,255,255,"+transa+")"
+        ctx.fillRect(0,0,10000,10000);
+        transa +=0.1;
+        if(transa>=0.9){
+            window.location.href = "main.html";
+            
+        }
+    }
+    if(transa<0.9){
+        requestAnimationFrame(draw);
+    }
 
 }
 
