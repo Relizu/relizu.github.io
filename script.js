@@ -6,6 +6,7 @@ canvas.height = 2500
 canvas.width = window.innerWidth
 ctx.imageSmoothingEnabled = false;
 
+
 let wordlist=["Scroll down ;>.","live laugh love","Hi!","I'm an engineer","isn't this cool?","may 10th is a special day", "Egypt","I LOVE CATS!","Canvas","Machine Learning","Patience!",""]
 
 let mouse={x:0,y:0}
